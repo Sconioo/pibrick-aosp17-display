@@ -68,15 +68,22 @@ fonctionne, puis éteignez complètement le piBrick.
 Dans un terminal Linux :
 
 ```bash
-cd "$HOME/Téléchargements"
+DOWNLOAD_DIR="$(xdg-user-dir DOWNLOAD 2>/dev/null || pwd)"
+cd "$DOWNLOAD_DIR"
 tar -xzf pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz
 cd pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation
 ```
 
+`xdg-user-dir DOWNLOAD` sélectionne automatiquement le dossier de
+téléchargement du compte, qu’il s’appelle `Téléchargements`, `Downloads` ou
+autrement. L’archive peut aussi être décompressée ailleurs : l’installateur ne
+dépend pas de son emplacement.
+
 Optionnel, mais recommandé : contrôler l’archive téléchargée.
 
 ```bash
-cd "$HOME/Téléchargements"
+DOWNLOAD_DIR="$(xdg-user-dir DOWNLOAD 2>/dev/null || pwd)"
+cd "$DOWNLOAD_DIR"
 sha256sum pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz
 ```
 
