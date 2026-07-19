@@ -1,123 +1,233 @@
-# Android 17 sur piBrick — AMOLED, HDMI, luminosité, tactile et autorotation
+# Android 17 sur piBrick Pocket CM5
 
-Ce projet ajoute le support matériel du piBrick Pocket CM5 à
-[KonstaKANG AOSP 17](https://konstakang.com/devices/rpi5/AOSP17/).
+Correctif cumulatif pour utiliser l’écran AMOLED, les deux sorties HDMI, la
+luminosité, le tactile et l’autorotation du piBrick avec
+[KonstaKANG AOSP 17 pour Raspberry Pi 5](https://konstakang.com/devices/rpi5/AOSP17/).
+
+> Ce projet ne contient pas Android. Installez d’abord l’image KonstaKANG AOSP
+> 17 du **2 juillet 2026**, puis appliquez ce correctif.
 
 <!-- PIBRICK_LATEST_START -->
-## Version recommandée
+## Version recommandée : V6
 
 ### [⬇️ Télécharger la V6 complète](https://github.com/Sconioo/pibrick-aosp17-display/releases/download/display-v6-90hz-hdmi-brightness-touch-autorotation/pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz)
 
-La **V6** est la dernière version cumulative validée sur le matériel réel.
+La V6 est la dernière version testée sur un vrai piBrick Pocket CM5.
 
-Fonctions validées :
+| Fonction | État validé |
+|---|---|
+| AMOLED | 1080×1240 à 90 Hz |
+| HDMI | HDMI-1 et HDMI-2, simultanément avec l’AMOLED |
+| Luminosité AMOLED | Réglable de 0 à 100 % |
+| Boutons physiques | `−` et `+`, progression en 20 pas |
+| Tactile | Hynitron CST3530, 5 points |
+| Autorotation | MMA8451Q, quatre orientations |
+| Installation | Automatique en mode `rpiboot` avec sauvegarde |
 
-- écran AMOLED 1080×1240 à 90 Hz ;
-- HDMI-1 et HDMI-2 fonctionnels ;
-- AMOLED et HDMI utilisables simultanément ;
-- luminosité Android réglable de 0 à 100 % ;
-- boutons physiques `−` et `+` avec 20 pas ;
-- tactile Hynitron CST3530 à 5 points ;
-- autorotation MMA8451Q dans les quatre orientations ;
-- tactile correctement aligné après rotation ;
-- sauvegarde automatique avant modification ;
-- contrôle SHA-256 de tous les fichiers.
+Noyau validé : `Linux 6.18.26-g9944b3831291-v8`
 
-Compatibilité validée :
-
-- piBrick Pocket CM5 ;
-- KonstaKANG AOSP 17 du 2 juillet 2026 ;
-- noyau Linux `6.18.26-g9944b3831291-v8`.
-
-SHA-256 de l’archive V6 :
+SHA-256 de l’archive :
 
 ```text
 60f5871a200b212da21be3022590502fdbc603f8e7d24f752773f0a265dd6042
 ```
 
-[Consulter la release V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) ·
-[Sources du noyau](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1)
+[Notes de la release V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) ·
+[Sources du noyau V6](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1)
 <!-- PIBRICK_LATEST_END -->
 
-## Installation en trois étapes
+## Avant de commencer
 
-### 1. Installer Android 17
+Vous avez besoin de :
 
-Télécharger l’image depuis la
-[page officielle KonstaKANG AOSP 17](https://konstakang.com/devices/rpi5/AOSP17/)
-et l’écrire sur le stockage du piBrick avec Raspberry Pi Imager.
+- un piBrick Pocket CM5 avec l’image AOSP 17 du 2 juillet 2026 ;
+- un ordinateur Linux avec `sudo`, `lsblk`, `mount`, `sha256sum` et `tar` ;
+- un câble USB de données pour le mode `rpiboot` ;
+- l’archive V6 téléchargée ci-dessus.
 
-> Utiliser le build AOSP 17 du 2 juillet 2026. L’image Android complète n’est
-> pas redistribuée dans ce projet.
+Important :
 
-### 2. Appliquer le correctif piBrick
+- ne lancez pas `install.sh` avec `sudo` ; le script le demandera uniquement
+  lorsqu’il doit accéder aux partitions Android ;
+- ne débranchez pas le piBrick pendant l’installation ;
+- vérifiez que le disque affiché est bien
+  `Raspberry Pi multi-function USB device` avant de taper `INSTALLER` ;
+- ce paquet est prévu pour le build indiqué, pas pour une autre version AOSP.
 
-Éteindre le piBrick et le démarrer en mode `rpiboot`.
+## Installation pas à pas
 
-Décompresser l’archive V6, ouvrir un terminal dans le dossier obtenu, puis
-lancer sans `sudo` :
+### 1. Installer Android
+
+Téléchargez le build AOSP 17 du 2 juillet 2026 sur la
+[page KonstaKANG](https://konstakang.com/devices/rpi5/AOSP17/) et installez-le
+sur le piBrick. Démarrez Android une première fois pour vérifier qu’il
+fonctionne, puis éteignez complètement le piBrick.
+
+### 2. Décompresser la V6
+
+Dans un terminal Linux :
 
 ```bash
+cd "$HOME/Téléchargements"
+tar -xzf pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz
+cd pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation
+```
+
+Optionnel, mais recommandé : contrôler l’archive téléchargée.
+
+```bash
+cd "$HOME/Téléchargements"
+sha256sum pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz
+```
+
+Le résultat doit être :
+
+```text
+60f5871a200b212da21be3022590502fdbc603f8e7d24f752773f0a265dd6042
+```
+
+### 3. Passer le piBrick en mode `rpiboot`
+
+Éteignez le piBrick, connectez-le à l’ordinateur avec le câble USB de données,
+puis démarrez-le en mode `rpiboot`. Le stockage doit apparaître comme un disque
+USB nommé `Raspberry Pi multi-function USB device`.
+
+Pour vérifier :
+
+```bash
+lsblk -dnpo NAME,MODEL,TRAN | grep -i "Raspberry Pi"
+```
+
+### 4. Lancer l’installateur
+
+Depuis le dossier décompressé :
+
+```bash
+chmod +x install.sh
 ./install.sh
 ```
 
-Contrôler le disque et les partitions affichés, puis taper :
+Ne mettez pas `sudo` devant `./install.sh`.
+
+Le script affiche le disque, les partitions `boot`, `vendor` et système, puis
+demande :
 
 ```text
-INSTALLER
+Tapez INSTALLER pour continuer: INSTALLER
 ```
 
-L’installateur détecte automatiquement les partitions `boot`, `vendor` et
-système, sauvegarde les fichiers présents, puis applique tous les correctifs.
+Relisez la cible affichée avant de taper `INSTALLER`. Le script sauvegarde les
+fichiers actuels, installe les correctifs et contrôle toutes les copies.
 
-### 3. Démarrer
+### 5. Redémarrer normalement
 
-Quitter le mode `rpiboot` et démarrer normalement. L’AMOLED, les deux ports
-HDMI, la luminosité, le tactile et l’autorotation sont alors opérationnels.
+Lorsque `INSTALLATION TERMINÉE` apparaît, quittez le mode `rpiboot`, débranchez
+le câble utilisé pour ce mode et démarrez normalement.
 
-## Revenir à une version précédente
+Vérifiez ensuite :
 
-Les anciennes releases restent disponibles comme solutions de repli :
+- AMOLED et tactile ;
+- rotation gauche, droite, portrait et portrait inversé ;
+- boutons de luminosité `−` et `+` ;
+- HDMI-1 puis HDMI-2.
 
-| Version | Fonctions principales | Lien |
+## Comportements normaux
+
+- Le réglage Android contrôle la luminosité de l’AMOLED intégré. La luminosité
+  d’un écran HDMI se règle sur l’écran HDMI lui-même.
+- En mode miroir, l’image HDMI suit l’orientation actuelle du piBrick. Une
+  rotation en portrait est donc également visible sur HDMI.
+- L’icône de batterie et la gestion de charge ne font pas partie de ce paquet
+  consacré à l’affichage et aux entrées.
+
+## Dépannage rapide
+
+### `ERREUR: un unique piBrick rpiboot est requis`
+
+Le piBrick n’est pas détecté ou plusieurs appareils similaires sont présents.
+Vérifiez le câble USB de données et relancez :
+
+```bash
+lsblk -dnpo NAME,MODEL,TRAN | grep -i "Raspberry Pi"
+```
+
+### `Permission denied` sur `install.sh`
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### L’installation s’arrête avant les copies
+
+L’installateur refuse une image Android, un fichier ou une partition qui ne
+correspond pas à la version attendue. N’essayez pas de contourner ce contrôle :
+utilisez le build AOSP 17 du 2 juillet 2026.
+
+### Échec pendant l’installation
+
+Le script tente automatiquement de restaurer la sauvegarde créée avant les
+modifications. Conservez le chemin de sauvegarde affiché dans le terminal.
+
+## Versions disponibles
+
+Chaque release reste téléchargeable pour faciliter les tests et le retour à une
+étape précédente.
+
+| Version | Fonctions principales | Release |
 |---|---|---|
-| **V6 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points et autorotation | [Télécharger](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) |
-| V5 | AMOLED 90 Hz, HDMI-1/2, luminosité, boutons et tactile 5 points | [Release V5](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
-| V4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons fins | [Release V4](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v4-90hz-hdmi-brightness) |
-| V3 | AMOLED 90 Hz et HDMI-1/2 | [Release V3](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v3-90hz-hdmi) |
-| V2 | AMOLED 60 Hz et HDMI-1/2 | [Release V2](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v2-hdmi-60hz) |
-| V1 | Première intégration AMOLED 60 Hz | [Release V1](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v1-60hz) |
+| **V6 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points, autorotation | [V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) |
+| V5 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points | [V5](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
+| V4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas | [V4](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v4-90hz-hdmi-brightness) |
+| V3 | AMOLED 90 Hz et HDMI-1/2 | [V3](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v3-90hz-hdmi) |
+| V2 | AMOLED 60 Hz et HDMI-1/2 | [V2](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v2-hdmi-60hz) |
+| V1 | Première intégration AMOLED 60 Hz | [V1](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v1-60hz) |
 
 [Afficher toutes les releases](https://github.com/Sconioo/pibrick-aosp17-display/releases)
 
-## Sauvegarde et restauration
+## Sauvegarde et retour arrière
 
-Avant toute modification, l’installateur sauvegarde les fichiers remplacés
-dans :
+Avant toute modification, l’installateur crée une sauvegarde dans :
 
 ```text
 $HOME/pibrick-aosp17-backups/
 ```
 
-En cas d’erreur pendant l’installation, il tente une restauration automatique.
-Les anciennes releases restent disponibles pour revenir manuellement à une
-étape précédemment validée.
+Le chemin exact apparaît avant la confirmation. Ne supprimez pas ce dossier
+tant que la nouvelle version n’a pas été testée. Pour revenir à une ancienne
+fonctionnalité, utilisez la release correspondante ci-dessus.
 
 ## Sources et reproductibilité
 
-L’archive contient :
+Chaque archive de release contient :
 
 - les binaires précompilés et testés ;
-- l’installateur automatique ;
-- les patchs du noyau, du tactile, de l’autorotation, de `drm_hwcomposer`,
-  du HAL Light et du framework ;
-- les commits de base et d’intégration dans `source/SOURCE.txt` ;
-- les empreintes dans `SHA256SUMS`.
+- `install.sh` ;
+- `SHA256SUMS` ;
+- les patchs sources utilisés pour cette version ;
+- `source/SOURCE.txt` avec les commits et dépôts de référence.
 
-Branches validées :
+### Branches noyau publiques et validées
 
-- [noyau V6 avec autorotation](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1) ;
-- [noyau V5 tactile](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/touch-v1).
+| Étape | Branche | Utilisation |
+|---|---|---|
+| Affichage AMOLED initial | [`pibrick/display-v1`](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/display-v1) | Base des V1 et V2 |
+| Tactile | [`pibrick/touch-v1`](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/touch-v1) | Noyau de la V5 |
+| Autorotation | [`pibrick/autorotation-driver-v1`](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1) | Noyau final de la V6 |
 
-Chaque nouvelle étape n’est mise en avant ici qu’après validation sur le
-piBrick réel.
+Les changements intermédiaires des V2, V3 et V4 touchent aussi
+`drm_hwcomposer`, le HAL Light et le framework Android. Ils sont conservés sous
+forme de patchs dans le dossier `source/` de chaque archive correspondante.
+Cette présentation évite de faire croire qu’une seule branche noyau contient
+tous les composants Android.
+
+## Périmètre validé
+
+La V6 a été validée sur :
+
+- piBrick Pocket CM5 ;
+- KonstaKANG AOSP 17 du 2 juillet 2026 ;
+- AMOLED, HDMI-1, HDMI-2, luminosité, boutons, tactile et autorotation.
+
+Chaque nouvelle étape n’est déclarée recommandée qu’après test sur le matériel
+réel.
