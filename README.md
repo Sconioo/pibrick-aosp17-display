@@ -7,10 +7,30 @@ luminosité, le tactile et l’autorotation du piBrick avec
 > Ce projet ne contient pas Android. Installez d’abord l’image KonstaKANG AOSP
 > 17 du **2 juillet 2026**, puis appliquez ce correctif.
 
+## Origine du projet et crédits
+
+Ce portage repose sur plusieurs travaux successifs. Le rôle de chacun est
+présenté dans l’ordre chronologique :
+
+| Étape | Auteur ou projet | Contribution |
+|---|---|---|
+| 1. Matériel | [amarullz / piBrick](https://github.com/amarullz/piBrick) | Conception du piBrick Pocket CM5, fichiers matériels et documentation de référence |
+| 2. Pilotes Linux | [lshaf / pibrick-driver](https://github.com/lshaf/pibrick-driver) | Dépôt de pilotes de référence pour l’AMOLED, le tactile et les périphériques du piBrick |
+| 3. Base Android Raspberry Pi | [KonstaKANG](https://konstakang.com/devices/rpi5/AOSP17/) et [Raspberry Vanilla](https://github.com/raspberry-vanilla) | AOSP 17 pour Raspberry Pi 5, arborescence appareil et noyau Android de base |
+| 4. Portage piBrick AOSP 17 | [Sconioo](https://github.com/Sconioo) | Adaptation, compilation, intégration Android, tests matériels, installateurs et releases cumulatives V1 à V6 |
+
+Le travail réalisé dans ce dépôt comprend notamment l’intégration AMOLED à
+90 Hz, la correction des deux sorties HDMI, la luminosité 0–100 %, les boutons
+en 20 pas, le tactile 5 points, le MMA8451Q et l’autorotation, ainsi que les
+scripts de sauvegarde et d’installation en mode `rpiboot`.
+
+Les licences et mentions présentes dans les projets et pilotes d’origine
+restent applicables. Ce dépôt ne prétend pas remplacer leurs auteurs.
+
 <!-- PIBRICK_LATEST_START -->
 ## Version recommandée : V6
 
-### [⬇️ Télécharger la V6 complète](https://github.com/Sconioo/pibrick-aosp17-display/releases/download/display-v6-90hz-hdmi-brightness-touch-autorotation/pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz)
+### [⬇️ Télécharger la V6 complète](https://github.com/Sconioo/pibrick-aosp17/releases/download/display-v6-90hz-hdmi-brightness-touch-autorotation/pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz)
 
 La V6 est la dernière version testée sur un vrai piBrick Pocket CM5.
 
@@ -32,7 +52,7 @@ SHA-256 de l’archive :
 60f5871a200b212da21be3022590502fdbc603f8e7d24f752773f0a265dd6042
 ```
 
-[Notes de la release V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) ·
+[Notes de la release V6](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) ·
 [Sources du noyau V6](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1)
 <!-- PIBRICK_LATEST_END -->
 
@@ -183,14 +203,14 @@ Chaque release reste téléchargeable pour faciliter les tests et le retour à u
 
 | Version | Fonctions principales | Release |
 |---|---|---|
-| **V6 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points, autorotation | [V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) |
-| V5 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points | [V5](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
-| V4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas | [V4](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v4-90hz-hdmi-brightness) |
-| V3 | AMOLED 90 Hz et HDMI-1/2 | [V3](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v3-90hz-hdmi) |
-| V2 | AMOLED 60 Hz et HDMI-1/2 | [V2](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v2-hdmi-60hz) |
-| V1 | Première intégration AMOLED 60 Hz | [V1](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v1-60hz) |
+| **V6 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points, autorotation | [V6](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) |
+| V5 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas, tactile 5 points | [V5](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
+| V4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons 20 pas | [V4](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v4-90hz-hdmi-brightness) |
+| V3 | AMOLED 90 Hz et HDMI-1/2 | [V3](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v3-90hz-hdmi) |
+| V2 | AMOLED 60 Hz et HDMI-1/2 | [V2](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v2-hdmi-60hz) |
+| V1 | Première intégration AMOLED 60 Hz | [V1](https://github.com/Sconioo/pibrick-aosp17/releases/tag/display-v1-60hz) |
 
-[Afficher toutes les releases](https://github.com/Sconioo/pibrick-aosp17-display/releases)
+[Afficher toutes les releases](https://github.com/Sconioo/pibrick-aosp17/releases)
 
 ## Sauvegarde et retour arrière
 
