@@ -1,32 +1,14 @@
-# Android 17 sur piBrick — AMOLED, HDMI, luminosité et tactile
-
-<!-- PIBRICK_LATEST_START -->
-## Version recommandée
-
-### piBrick AOSP 17 display v6 — 90 Hz, HDMI, brightness, touch and autorotation
-
-[Télécharger la V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/download/display-v6-90hz-hdmi-brightness-touch-autorotation/pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz)
-
-- AMOLED 1080x1240 à 90 Hz
-- HDMI 1 et 2
-- luminosité 0-100 % et boutons en 20 pas
-- tactile multipoint
-- autorotation MMA8451Q dans les quatre orientations
-- installateur automatique avec sauvegarde
-
-SHA-256 : `60f5871a200b212da21be3022590502fdbc603f8e7d24f752773f0a265dd6042`
-
-[Sources du noyau](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1) · [Toutes les releases](https://github.com/Sconioo/pibrick-aosp17-display/releases)
-<!-- PIBRICK_LATEST_END -->
+# Android 17 sur piBrick — AMOLED, HDMI, luminosité, tactile et autorotation
 
 Ce projet ajoute le support matériel du piBrick Pocket CM5 à
 [KonstaKANG AOSP 17](https://konstakang.com/devices/rpi5/AOSP17/).
 
+<!-- PIBRICK_LATEST_START -->
 ## Version recommandée
 
-### [⬇️ Télécharger la v5 complète](https://github.com/Sconioo/pibrick-aosp17-display/releases/download/display-v5-90hz-hdmi-brightness-touch/pibrick-aosp17-display-v5-90hz-hdmi-brightness-touch.tar.gz)
+### [⬇️ Télécharger la V6 complète](https://github.com/Sconioo/pibrick-aosp17-display/releases/download/display-v6-90hz-hdmi-brightness-touch-autorotation/pibrick-aosp17-display-v6-90hz-hdmi-brightness-touch-autorotation.tar.gz)
 
-La **v5** est la dernière version validée sur le matériel réel.
+La **V6** est la dernière version cumulative validée sur le matériel réel.
 
 Fonctions validées :
 
@@ -34,28 +16,28 @@ Fonctions validées :
 - HDMI-1 et HDMI-2 fonctionnels ;
 - AMOLED et HDMI utilisables simultanément ;
 - luminosité Android réglable de 0 à 100 % ;
-- boutons physiques `−` et `+` avec 20 pas plus fins ;
+- boutons physiques `−` et `+` avec 20 pas ;
 - tactile Hynitron CST3530 à 5 points ;
-- orientation et coordonnées tactiles correctes ;
+- autorotation MMA8451Q dans les quatre orientations ;
+- tactile correctement aligné après rotation ;
 - sauvegarde automatique avant modification ;
 - contrôle SHA-256 de tous les fichiers.
-
-> L’autorotation de l’affichage par accéléromètre n’est pas encore prise en
-> charge. Cela n’affecte pas l’orientation ni le fonctionnement du tactile.
 
 Compatibilité validée :
 
 - piBrick Pocket CM5 ;
 - KonstaKANG AOSP 17 du 2 juillet 2026 ;
-- noyau Linux `6.18.26-g3d165839d2c4-v8`.
+- noyau Linux `6.18.26-g9944b3831291-v8`.
 
-SHA-256 de l’archive v5 :
+SHA-256 de l’archive V6 :
 
 ```text
-b1d8cc266eb0ac650c90f4a182d09b8a1f0e95774b99bb05e82a76cfab0e1fa6
+60f5871a200b212da21be3022590502fdbc603f8e7d24f752773f0a265dd6042
 ```
 
-[Consulter la release v5 et ses notes](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch)
+[Consulter la release V6](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) ·
+[Sources du noyau](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1)
+<!-- PIBRICK_LATEST_END -->
 
 ## Installation en trois étapes
 
@@ -72,7 +54,7 @@ et l’écrire sur le stockage du piBrick avec Raspberry Pi Imager.
 
 Éteindre le piBrick et le démarrer en mode `rpiboot`.
 
-Décompresser l’archive v5, ouvrir un terminal dans le dossier obtenu, puis
+Décompresser l’archive V6, ouvrir un terminal dans le dossier obtenu, puis
 lancer sans `sudo` :
 
 ```bash
@@ -91,7 +73,7 @@ système, sauvegarde les fichiers présents, puis applique tous les correctifs.
 ### 3. Démarrer
 
 Quitter le mode `rpiboot` et démarrer normalement. L’AMOLED, les deux ports
-HDMI, la luminosité et le tactile sont alors opérationnels.
+HDMI, la luminosité, le tactile et l’autorotation sont alors opérationnels.
 
 ## Revenir à une version précédente
 
@@ -99,11 +81,12 @@ Les anciennes releases restent disponibles comme solutions de repli :
 
 | Version | Fonctions principales | Lien |
 |---|---|---|
-| **v5 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité, boutons et tactile 5 points | [Télécharger](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
-| v4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons fins | [Release v4](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v4-90hz-hdmi-brightness) |
-| v3 | AMOLED 90 Hz et HDMI-1/2 | [Release v3](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v3-90hz-hdmi) |
-| v2 | AMOLED 60 Hz et HDMI-1/2 | [Release v2](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v2-hdmi-60hz) |
-| v1 | Première intégration AMOLED 60 Hz | [Release v1](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v1-60hz) |
+| **V6 — recommandée** | AMOLED 90 Hz, HDMI-1/2, luminosité, tactile et autorotation | [Télécharger](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v6-90hz-hdmi-brightness-touch-autorotation) |
+| V5 | AMOLED 90 Hz, HDMI-1/2, luminosité, boutons et tactile 5 points | [Release V5](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v5-90hz-hdmi-brightness-touch) |
+| V4 | AMOLED 90 Hz, HDMI-1/2, luminosité 0–100 %, boutons fins | [Release V4](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v4-90hz-hdmi-brightness) |
+| V3 | AMOLED 90 Hz et HDMI-1/2 | [Release V3](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v3-90hz-hdmi) |
+| V2 | AMOLED 60 Hz et HDMI-1/2 | [Release V2](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v2-hdmi-60hz) |
+| V1 | Première intégration AMOLED 60 Hz | [Release V1](https://github.com/Sconioo/pibrick-aosp17-display/releases/tag/display-v1-60hz) |
 
 [Afficher toutes les releases](https://github.com/Sconioo/pibrick-aosp17-display/releases)
 
@@ -126,13 +109,15 @@ L’archive contient :
 
 - les binaires précompilés et testés ;
 - l’installateur automatique ;
-- les patchs du noyau, du tactile, de `drm_hwcomposer`, du HAL Light et du
-  framework ;
+- les patchs du noyau, du tactile, de l’autorotation, de `drm_hwcomposer`,
+  du HAL Light et du framework ;
 - les commits de base et d’intégration dans `source/SOURCE.txt` ;
 - les empreintes dans `SHA256SUMS`.
 
-La branche du noyau tactile validée est disponible ici :
-[`pibrick/touch-v1`](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/touch-v1).
+Branches validées :
+
+- [noyau V6 avec autorotation](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/autorotation-driver-v1) ;
+- [noyau V5 tactile](https://github.com/Sconioo/android_kernel_brcm_rpi/tree/pibrick/touch-v1).
 
 Chaque nouvelle étape n’est mise en avant ici qu’après validation sur le
 piBrick réel.
